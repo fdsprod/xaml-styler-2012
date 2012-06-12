@@ -1,65 +1,37 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.Options
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using Microsoft.VisualStudio.Shell;
+
+namespace XamlStyler.XamlStylerVSPackage.Options
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Text;
-
-    using Microsoft.VisualStudio.Shell;
-
+    [System.ComponentModel.DesignerCategory("")]
     public class StylerOptions : DialogPage, IStylerOptions
     {
-        #region Constructors
-
         public StylerOptions()
         {
-            #region New Line
-            
             this.AttributesTolerance = 2;
             this.MaxAttributesPerLine = 1;
             this.MaxAttributeCharatersPerLine = 0;
             this.NoNewLineElements = "RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransfom, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter";
             this.PutEndingBracketOnNewLine = false;
-            this.RemoveEndingTagOfEmptyElement = true; 
-
-            #endregion
-            
-            #region Markup Extension
-            
-            this.FormatMarkupExtension = true; 
-            
-            #endregion
-
-            #region Attribute Ordering Rule Related Default Options
+            this.RemoveEndingTagOfEmptyElement = true;
+            this.FormatMarkupExtension = true;
 
             this.AttributeOrderClass = "x:Class";
-
             this.AttributeOrderWpfNamespace = "xmlns, xmlns:x";
-
             this.AttributeOrderKey = "Key, x:Key";
             this.AttributeOrderName = "Name, x:Name, Title";
-
             this.AttributeOrderAttachedLayout = "Grid.Row, Grid.RowSpan, Grid.Column, Grid.ColumnSpan, Canvas.Left, Canvas.Top, Canvas.Right, Canvas.Bottom";
             this.AttributeOrderCoreLayout = "Width, Height, MinWidth, MinHeight, MaxWidth, MaxHeight, Margin";
             this.AttributeOrderAlignmentLayout = "HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, Panel.ZIndex";
-
             this.AttributeOrderOthers = "PageSource, PageIndex, Offset, Color, TargetName, Property, Value, StartPoint, EndPoint";
-
             this.AttributeOrderBlendRelated = "mc:Ignorable, d:IsDataSource, d:LayoutOverrides, d:IsStaticText";
 
-            #endregion
-
-            #region Misc
-
             this.BeautifyOnSave = true;
-
-            #endregion
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         [Category("Attribute Ordering Rule Groups")]
         [DisplayName("#1 Class definition group")]
@@ -97,7 +69,8 @@
         [DefaultValue("Name, x:Name, Title")]
         public string AttributeOrderName
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("Attribute Ordering Rule Groups")]
@@ -129,14 +102,15 @@
             get;
             set;
         }
-        
+
         [Category("Attribute Ordering Rule Groups")]
         [DisplayName("#8 Miscellaneous attributes group")]
         [Description("Defines ordering rule of miscellaneous attributes.\r\nUse ',' to seperate more than one attribute.\r\nAttributes listed in earlier group takes precedence than later groups.\r\nAttributes listed earlier in same group takes precedence than the ones listed later.\r\n**Attributes not listed in any ordring rule groups, are implicitly appended to this group in alphabetic order.")]
         [DefaultValue("PageSource, PageIndex, Offset, Color, TargetName, Property, Value, StartPoint, EndPoint")]
         public string AttributeOrderOthers
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("Attribute Ordering Rule Groups")]
@@ -155,7 +129,8 @@
         [DefaultValue(2)]
         public int AttributesTolerance
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("Markup Extension")]
@@ -164,7 +139,8 @@
         [DefaultValue(true)]
         public bool FormatMarkupExtension
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("New Line")]
@@ -173,7 +149,8 @@
         [DefaultValue(0)]
         public int MaxAttributeCharatersPerLine
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("New Line")]
@@ -182,7 +159,8 @@
         [DefaultValue(1)]
         public int MaxAttributesPerLine
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("New Line")]
@@ -191,7 +169,8 @@
         [DefaultValue("RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransfom, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter")]
         public string NoNewLineElements
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("New Line")]
@@ -200,7 +179,8 @@
         [DefaultValue(false)]
         public bool PutEndingBracketOnNewLine
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("New Line")]
@@ -209,7 +189,8 @@
         [DefaultValue(true)]
         public bool RemoveEndingTagOfEmptyElement
         {
-            get; set;
+            get;
+            set;
         }
 
         [Category("Misc")]
@@ -221,7 +202,5 @@
             get;
             set;
         }
-        
-        #endregion Properties
     }
 }

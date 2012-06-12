@@ -1,17 +1,13 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.StylerModels
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
+namespace XamlStyler.XamlStylerVSPackage.StylerModels
+{
     public class AttributeOrderRule
     {
-        #region Fields
-
-        public AttributeTokenInfoEnum AttributeTokenType = AttributeTokenInfoEnum.OTHER;
+        public AttributeTokenInfoEnum AttributeTokenType = AttributeTokenInfoEnum.Other;
         public int Priority = 0;
-
-        #endregion Fields
     }
 }

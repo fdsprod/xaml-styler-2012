@@ -1,67 +1,55 @@
-﻿namespace XamlStyler.XamlStylerVSPackage
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using XamlStyler.XamlStylerVSPackage.StylerModels;
+
+namespace XamlStyler.XamlStylerVSPackage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using System.Text.RegularExpressions;
-
-    using XamlStyler.XamlStylerVSPackage.StylerModels;
-
     public static class MarkupExtensionParser
     {
-        #region Fields
-
-        // Fields
         private static readonly Regex MarkupExtensionPattern = new Regex("^{(?!}).*}$");
-
-        #endregion Fields
-
-        #region Methods
 
         public static MarkupExtensionInfo Parse(string input)
         {
-            #region Parameter Checks
-
             if (!MarkupExtensionPattern.IsMatch(input))
             {
                 string msg = String.Format("{0} is not a MarkupExtension.", input);
                 throw new InvalidOperationException(msg);
             }
 
-            #endregion
-
             MarkupExtensionInfo resultInfo = new MarkupExtensionInfo();
 
             using (StringReader reader = new StringReader(input))
             {
-                MarkupExtensionParsingModeEnum parsingMode = MarkupExtensionParsingModeEnum.START;
+                MarkupExtensionParsingModeEnum parsingMode = MarkupExtensionParsingModeEnum.Start;
 
                 try
                 {
                     //Debug.Print("Parsing '{0}'", input);
                     //Debug.Indent();
 
-                    while (MarkupExtensionParsingModeEnum.END != parsingMode
-                        && MarkupExtensionParsingModeEnum.UNEXPECTED != parsingMode)
+                    while (MarkupExtensionParsingModeEnum.End != parsingMode
+                        && MarkupExtensionParsingModeEnum.Unexpected != parsingMode)
                     {
                         //Debug.Print(context.ToString());
                         //Debug.Indent();
 
                         switch (parsingMode)
                         {
-                            case MarkupExtensionParsingModeEnum.START:
+                            case MarkupExtensionParsingModeEnum.Start:
                                 parsingMode = reader.ReadMarkupExtensionStart(resultInfo);
                                 break;
 
-                            case MarkupExtensionParsingModeEnum.MARKUP_NAME:
+                            case MarkupExtensionParsingModeEnum.MarkupName:
                                 parsingMode = reader.ReadMarkupName(resultInfo);
                                 break;
 
-                            case MarkupExtensionParsingModeEnum.NAME_VALUE_PAIR:
+                            case MarkupExtensionParsingModeEnum.NameValuePair:
                                 parsingMode = reader.ReadNameValuePair(resultInfo);
                                 break;
 
@@ -116,7 +104,7 @@
 
             reader.SeekTill(x => '{' != x && !Char.IsWhiteSpace(x));
 
-            return MarkupExtensionParsingModeEnum.MARKUP_NAME;
+            return MarkupExtensionParsingModeEnum.MarkupName;
         }
 
         private static MarkupExtensionParsingModeEnum ReadMarkupName(this StringReader reader, MarkupExtensionInfo info)
@@ -124,7 +112,7 @@
             string methodName = MethodBase.GetCurrentMethod().Name;
 
             char[] stopChars = { ' ', '}' };
-            MarkupExtensionParsingModeEnum resultParsingMode = MarkupExtensionParsingModeEnum.UNEXPECTED;
+            MarkupExtensionParsingModeEnum resultParsingMode = MarkupExtensionParsingModeEnum.Unexpected;
             StringBuilder buffer = new StringBuilder();
 
             while (!reader.IsEnd())
@@ -136,11 +124,11 @@
                     switch (c)
                     {
                         case ' ':
-                            resultParsingMode = MarkupExtensionParsingModeEnum.NAME_VALUE_PAIR;
+                            resultParsingMode = MarkupExtensionParsingModeEnum.NameValuePair;
                             break;
 
                         case '}':
-                            resultParsingMode = MarkupExtensionParsingModeEnum.END;
+                            resultParsingMode = MarkupExtensionParsingModeEnum.End;
                             break;
 
                         default:
@@ -160,7 +148,7 @@
                 }
             }
 
-            if (MarkupExtensionParsingModeEnum.UNEXPECTED == resultParsingMode)
+            if (MarkupExtensionParsingModeEnum.Unexpected == resultParsingMode)
             {
                 throw new InvalidDataException(
                     String.Format("[{0}] Invalid result context: {1}", methodName, resultParsingMode));
@@ -175,7 +163,7 @@
 
             char[] stopChars = { ',', '=', '}' };
 
-            MarkupExtensionParsingModeEnum resultParsingMode = MarkupExtensionParsingModeEnum.UNEXPECTED;
+            MarkupExtensionParsingModeEnum resultParsingMode = MarkupExtensionParsingModeEnum.Unexpected;
             string key = null;
             object value = null;
 
@@ -245,11 +233,11 @@
             switch (stopChar)
             {
                 case ',':
-                    resultParsingMode = MarkupExtensionParsingModeEnum.NAME_VALUE_PAIR;
+                    resultParsingMode = MarkupExtensionParsingModeEnum.NameValuePair;
                     break;
 
                 case '}':
-                    resultParsingMode = MarkupExtensionParsingModeEnum.END;
+                    resultParsingMode = MarkupExtensionParsingModeEnum.End;
                     break;
 
                 default:
@@ -257,7 +245,7 @@
                         String.Format("[{0}] Should not encounter '{1}'.", methodName, stopChar));
             }
 
-            if (MarkupExtensionParsingModeEnum.UNEXPECTED == resultParsingMode)
+            if (MarkupExtensionParsingModeEnum.Unexpected == resultParsingMode)
             {
                 throw new InvalidDataException(
                     String.Format("[{0}] Invalid result context: {1}", methodName, resultParsingMode));
@@ -294,12 +282,10 @@
         {
             StringBuilder buffer = new StringBuilder();
             int curlyBracePairCounter = 0;
-            MarkupExtensionParsingModeEnum parsingMode = MarkupExtensionParsingModeEnum.UNEXPECTED;
+            MarkupExtensionParsingModeEnum parsingMode = MarkupExtensionParsingModeEnum.Unexpected;
 
             // ignore leading spaces
             reader.SeekTill(x => !Char.IsWhiteSpace(x));
-
-            #region Determine parsing mode
 
             char c = reader.ReadChar();
             buffer.Append(c);
@@ -309,29 +295,27 @@
                 char peek = reader.PeekChar();
                 if ('}' != peek)
                 {
-                    parsingMode = MarkupExtensionParsingModeEnum.MARKUP_EXTENSION_VALUE;
+                    parsingMode = MarkupExtensionParsingModeEnum.MarkupExtensionValue;
 
                 }
                 else
                 {
-                    parsingMode = MarkupExtensionParsingModeEnum.LITERAL_VALUE;
+                    parsingMode = MarkupExtensionParsingModeEnum.LiteralValue;
                 }
                 curlyBracePairCounter++;
             }
             else if ('\'' == c)
             {
-                parsingMode = MarkupExtensionParsingModeEnum.QUOTED_LITERAL_VALUE;
+                parsingMode = MarkupExtensionParsingModeEnum.QuotedLiteralValue;
             }
             else
             {
-                parsingMode = MarkupExtensionParsingModeEnum.LITERAL_VALUE;
+                parsingMode = MarkupExtensionParsingModeEnum.LiteralValue;
             }
-
-            #endregion
 
             switch (parsingMode)
             {
-                case MarkupExtensionParsingModeEnum.MARKUP_EXTENSION_VALUE:
+                case MarkupExtensionParsingModeEnum.MarkupExtensionValue:
                     while (curlyBracePairCounter > 0 && (!reader.IsEnd()))
                     {
                         c = reader.ReadChar();
@@ -354,7 +338,7 @@
                     }
                     break;
 
-                case MarkupExtensionParsingModeEnum.QUOTED_LITERAL_VALUE:
+                case MarkupExtensionParsingModeEnum.QuotedLiteralValue:
                     // Following case is handled:
                     //      StringFormat='{}{0}\'s email'
                     do
@@ -365,7 +349,7 @@
 
                     break;
 
-                case MarkupExtensionParsingModeEnum.LITERAL_VALUE:
+                case MarkupExtensionParsingModeEnum.LiteralValue:
                     bool shouldStop = false;
 
                     while (!reader.IsEnd())
@@ -440,7 +424,5 @@
                 throw new InvalidDataException("[SeekTill] Cannot meet the stop condition.");
             }
         }
-
-        #endregion Methods
     }
 }

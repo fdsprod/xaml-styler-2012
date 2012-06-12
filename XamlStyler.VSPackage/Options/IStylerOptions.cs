@@ -1,93 +1,109 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.Options
-{
-    using System;
+﻿using System;
 
+namespace XamlStyler.XamlStylerVSPackage.Options
+{
     public interface IStylerOptions
     {
-        #region Properties
-
         string AttributeOrderAlignmentLayout
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderAttachedLayout
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderBlendRelated
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderClass
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderCoreLayout
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderKey
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderName
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderOthers
         {
-            get; set;
+            get;
+            set;
         }
 
         string AttributeOrderWpfNamespace
         {
-            get; set;
+            get;
+            set;
         }
 
         int AttributesTolerance
         {
-            get; set;
+            get;
+            set;
         }
 
         bool FormatMarkupExtension
         {
-            get; set;
+            get;
+            set;
         }
 
         int MaxAttributeCharatersPerLine
         {
-            get; set;
+            get;
+            set;
         }
 
         int MaxAttributesPerLine
         {
-            get; set;
+            get;
+            set;
         }
 
         string NoNewLineElements
         {
-            get; set;
+            get;
+            set;
         }
 
         bool PutEndingBracketOnNewLine
         {
-            get; set;
+            get;
+            set;
         }
 
         bool RemoveEndingTagOfEmptyElement
         {
-            get; set;
+            get;
+            set;
         }
 
-        bool BeautifyOnSave { get; set; }
-
-        #endregion Properties
+        bool BeautifyOnSave
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1,40 +1,29 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.StylerModels
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using XamlStyler.XamlStylerVSPackage.Options;
+
+namespace XamlStyler.XamlStylerVSPackage.StylerModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    using XamlStyler.XamlStylerVSPackage.Options;
-
     public class AttributeOrderRules
     {
-        #region Fields
-
         private readonly IDictionary<string, AttributeOrderRule> _internalDictionary = null;
-
-        #endregion Fields
-
-        #region Constructors
 
         public AttributeOrderRules(IStylerOptions options)
         {
             _internalDictionary = new Dictionary<string, AttributeOrderRule>();
 
-            this.Populate(options.AttributeOrderWpfNamespace, AttributeTokenInfoEnum.WPF_NAMESPACE)
-                .Populate(options.AttributeOrderClass, AttributeTokenInfoEnum.CLASS)
-                .Populate(options.AttributeOrderKey, AttributeTokenInfoEnum.KEY)
-                .Populate(options.AttributeOrderName, AttributeTokenInfoEnum.NAME)
-                .Populate(options.AttributeOrderAttachedLayout, AttributeTokenInfoEnum.ATTACHED_LAYOUT)
-                .Populate(options.AttributeOrderCoreLayout, AttributeTokenInfoEnum.CORE_LAYOUT)
-                .Populate(options.AttributeOrderAlignmentLayout, AttributeTokenInfoEnum.ALIGNMENT_LAYOUT)
-                .Populate(options.AttributeOrderOthers, AttributeTokenInfoEnum.OTHER)
-                .Populate(options.AttributeOrderBlendRelated, AttributeTokenInfoEnum.BLEND_RELATED);
+            this.Populate(options.AttributeOrderWpfNamespace, AttributeTokenInfoEnum.WpfNamespace)
+                .Populate(options.AttributeOrderClass, AttributeTokenInfoEnum.Class)
+                .Populate(options.AttributeOrderKey, AttributeTokenInfoEnum.Key)
+                .Populate(options.AttributeOrderName, AttributeTokenInfoEnum.Name)
+                .Populate(options.AttributeOrderAttachedLayout, AttributeTokenInfoEnum.AttachedLayout)
+                .Populate(options.AttributeOrderCoreLayout, AttributeTokenInfoEnum.CoreLayout)
+                .Populate(options.AttributeOrderAlignmentLayout, AttributeTokenInfoEnum.AlignmentLayout)
+                .Populate(options.AttributeOrderOthers, AttributeTokenInfoEnum.Other)
+                .Populate(options.AttributeOrderBlendRelated, AttributeTokenInfoEnum.BlendRelated);
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public bool ContainsRuleFor(string name)
         {
@@ -51,15 +40,15 @@
             }
             else
             {
-                AttributeTokenInfoEnum tempAttributeTokenType = AttributeTokenInfoEnum.OTHER;
+                AttributeTokenInfoEnum tempAttributeTokenType = AttributeTokenInfoEnum.Other;
 
                 if (attributeName.StartsWith("xmlns"))
                 {
-                    tempAttributeTokenType = AttributeTokenInfoEnum.OTHER_NAMESPACE;
+                    tempAttributeTokenType = AttributeTokenInfoEnum.OtherNamespace;
                 }
                 else
                 {
-                    tempAttributeTokenType = AttributeTokenInfoEnum.OTHER;
+                    tempAttributeTokenType = AttributeTokenInfoEnum.Other;
                 }
 
                 result = new AttributeOrderRule()
@@ -97,7 +86,5 @@
 
             return this;
         }
-
-        #endregion Methods
     }
 }

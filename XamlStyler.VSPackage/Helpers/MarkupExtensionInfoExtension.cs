@@ -1,16 +1,13 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.Helpers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using XamlStyler.XamlStylerVSPackage.StylerModels;
+
+namespace XamlStyler.XamlStylerVSPackage.Helpers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    using XamlStyler.XamlStylerVSPackage.StylerModels;
-
     public static class MarkupExtensionInfoExtension
     {
-        #region Methods
-
         public static string ToMultiLineString(this MarkupExtensionInfo info, string baseIndentationString)
         {
             string currentIndentationString = baseIndentationString + String.Empty.PadLeft(info.Name.Length + 2, ' ');
@@ -184,7 +181,5 @@
 
             return buffer.ToString();
         }
-
-        #endregion Methods
     }
 }

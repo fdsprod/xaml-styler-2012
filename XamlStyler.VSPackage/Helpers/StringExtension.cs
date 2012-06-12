@@ -1,14 +1,12 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.Helpers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
+namespace XamlStyler.XamlStylerVSPackage.Helpers
+{
     public static class StringExtension
     {
-        #region Methods
-
         public static string ToXmlEncodedString(this string input, bool ignoreCarrier = false)
         {
             StringBuilder buffer = new StringBuilder(input);
@@ -25,7 +23,5 @@
 
             return buffer.ToString();
         }
-
-        #endregion Methods
     }
 }

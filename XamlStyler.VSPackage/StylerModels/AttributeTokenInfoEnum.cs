@@ -1,25 +1,16 @@
 ﻿namespace XamlStyler.XamlStylerVSPackage.StylerModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    #region Enumerations
-
     public enum AttributeTokenInfoEnum
     {
-        CLASS = 10,
-        WPF_NAMESPACE = 20,
-        OTHER_NAMESPACE = 21,
-        KEY = 30,
-        NAME = 40,
-        ATTACHED_LAYOUT = 50,
-        CORE_LAYOUT = 60,
-        ALIGNMENT_LAYOUT = 70,
-        OTHER = 1000,
-        BLEND_RELATED = 10000
+        Class = 10,
+        WpfNamespace = 20,
+        OtherNamespace = 21,
+        Key = 30,
+        Name = 40,
+        AttachedLayout = 50,
+        CoreLayout = 60,
+        AlignmentLayout = 70,
+        Other = 1000,
+        BlendRelated = 10000
     }
-
-    #endregion Enumerations
 }

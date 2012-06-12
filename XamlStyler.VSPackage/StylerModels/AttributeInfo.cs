@@ -1,24 +1,16 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.StylerModels
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
+namespace XamlStyler.XamlStylerVSPackage.StylerModels
+{
     public class AttributeInfo : IComparable
     {
-        #region Fields
-
-        // Fields
         private static readonly Regex MarkupExtensionPattern = new Regex("^{(?!}).*}$");
-
         private readonly AttributeOrderRule _orderRule = null;
-
-        #endregion Fields
-
-        #region Constructors
 
         public AttributeInfo(string name, string value, AttributeOrderRule orderRule)
         {
@@ -28,29 +20,23 @@
             this._orderRule = orderRule;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         public bool IsMarkupExtension
         {
-            get; private set;
+            get;
+            private set;
         }
 
-        // Properties
         public string Name
         {
-            get; set;
+            get;
+            set;
         }
 
         public string Value
         {
-            get; set;
+            get;
+            set;
         }
-
-        #endregion Properties
-
-        #region Methods
 
         public int CompareTo(object obj)
         {
@@ -73,7 +59,5 @@
 
             return this.Name.CompareTo(target.Name);
         }
-
-        #endregion Methods
     }
 }

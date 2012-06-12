@@ -1,27 +1,23 @@
-﻿namespace XamlStyler.XamlStylerVSPackage
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using XamlStyler.XamlStylerVSPackage.Helpers;
+using XamlStyler.XamlStylerVSPackage.Options;
+using XamlStyler.XamlStylerVSPackage.StylerModels;
+
+namespace XamlStyler.XamlStylerVSPackage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Xml;
-
-    using XamlStyler.XamlStylerVSPackage.Helpers;
-    using XamlStyler.XamlStylerVSPackage.Options;
-    using XamlStyler.XamlStylerVSPackage.StylerModels;
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class Styler
     {
-        #region Fields
-
         private Stack<ElementProcessStatus> _elementProcessStatusStack = new Stack<ElementProcessStatus>();
-
-        // fields
         private char _indentCharacter = ' ';
         private int _indentSize = 2;
         private bool _keepFirstAttributeOnSameLine = true;
@@ -29,20 +25,11 @@
         private IStylerOptions _options = new StylerOptions();
         private AttributeOrderRules _orderRules = null;
 
-        #endregion Fields
-
-        #region Constructors
-
         public Styler()
         {
             _elementProcessStatusStack.Push(new ElementProcessStatus());
         }
 
-        #endregion Constructors
-
-        #region Properties
-
-        // properties
         public char IndentCharacter
         {
             get { return _indentCharacter; }
@@ -89,16 +76,11 @@
                         _orderRules = new AttributeOrderRules(this.Options);
                     }
                 }
-                
+
                 return _orderRules;
             }
         }
 
-        #endregion Properties
-
-        #region Methods
-
-        // methods
         public string Format(string xamlSource)
         {
             string output = String.Empty;
@@ -119,13 +101,13 @@
                         switch (xmlReader.NodeType)
                         {
                             case XmlNodeType.Element:
-                                this.UpdateParentElementProcessStatus(ContentTypeEnum.MIXED);
+                                this.UpdateParentElementProcessStatus(ContentTypeEnum.Mixed);
 
                                 _elementProcessStatusStack.Push(
                                         new ElementProcessStatus()
                                         {
                                             Name = xmlReader.Name,
-                                            ContentType = ContentTypeEnum.NONE,
+                                            ContentType = ContentTypeEnum.None,
                                             IsMultlineStartTag = false,
                                             IsSelfClosingElement = false
                                         }
@@ -141,17 +123,17 @@
                                 break;
 
                             case XmlNodeType.Text:
-                                this.UpdateParentElementProcessStatus(ContentTypeEnum.SINGLE_LINE_TEXT_ONLY);
+                                this.UpdateParentElementProcessStatus(ContentTypeEnum.SingleLineTextOnly);
                                 this.ProcessTextNode(xmlReader, ref output);
                                 break;
 
                             case XmlNodeType.ProcessingInstruction:
-                                this.UpdateParentElementProcessStatus(ContentTypeEnum.MIXED);
+                                this.UpdateParentElementProcessStatus(ContentTypeEnum.Mixed);
                                 this.ProcessInstruction(xmlReader, ref output);
                                 break;
 
                             case XmlNodeType.Comment:
-                                this.UpdateParentElementProcessStatus(ContentTypeEnum.MIXED);
+                                this.UpdateParentElementProcessStatus(ContentTypeEnum.Mixed);
                                 this.ProcessComment(xmlReader, ref output);
                                 break;
 
@@ -289,8 +271,6 @@
 
             if (xmlReader.HasAttributes)
             {
-                #region Sort Attributes
-
                 while (xmlReader.MoveToNextAttribute())
                 {
                     string attributeName = xmlReader.Name;
@@ -300,10 +280,6 @@
                 }
 
                 list.Sort();
-
-                #endregion
-
-                #region Output Attributes
 
                 currentIndentString = this.GetIndentString(xmlReader.Depth);
 
@@ -392,8 +368,6 @@
                     _elementProcessStatusStack.Peek().IsMultlineStartTag = true;
                 }
 
-                #endregion
-
                 // Determine if to put ending bracket on new line
                 if (this.Options.PutEndingBracketOnNewLine
                     && _elementProcessStatusStack.Peek().IsMultlineStartTag)
@@ -426,11 +400,9 @@
         {
             // Shrink the current element, if it has no content.
             // E.g., <Element>  </Element> => <Element />
-            if (ContentTypeEnum.NONE == _elementProcessStatusStack.Peek().ContentType
+            if (ContentTypeEnum.None == _elementProcessStatusStack.Peek().ContentType
                 && Options.RemoveEndingTagOfEmptyElement)
             {
-                #region shrink element with no content
-
                 output = output.TrimEnd(' ', '\t', '\r', '\n');
 
                 int bracketIndex = output.LastIndexOf('>');
@@ -443,11 +415,8 @@
                 {
                     output = output.Insert(bracketIndex, "/");
                 }
-
-                #endregion
-
             }
-            else if (ContentTypeEnum.SINGLE_LINE_TEXT_ONLY == _elementProcessStatusStack.Peek().ContentType
+            else if (ContentTypeEnum.SingleLineTextOnly == _elementProcessStatusStack.Peek().ContentType
                 && false == _elementProcessStatusStack.Peek().IsMultlineStartTag)
             {
                 int bracketIndex = output.LastIndexOf('>');
@@ -498,7 +467,7 @@
 
             if (textLines.Count<String>() > 1)
             {
-                UpdateParentElementProcessStatus(ContentTypeEnum.MULTI_LINE_TEXT_ONLY);
+                UpdateParentElementProcessStatus(ContentTypeEnum.MultiLineTextOnly);
             }
         }
 
@@ -530,7 +499,5 @@
 
             parentElementProcessStatus.ContentType |= contentType;
         }
-
-        #endregion Methods
     }
 }
