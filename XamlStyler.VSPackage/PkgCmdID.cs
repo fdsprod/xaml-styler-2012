@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XamlStyler.XamlStylerVSPackage
+namespace XamlStyler.VSPackage
 {
     static class PkgCmdIdList
     {

@@ -4,60 +4,51 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
-using XamlStyler.XamlStylerVSPackage.Helpers;
-using XamlStyler.XamlStylerVSPackage.Options;
-using XamlStyler.XamlStylerVSPackage.StylerModels;
 
-namespace XamlStyler.XamlStylerVSPackage
+namespace XamlStyler.Core
 {
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class Styler
     {
-        private Stack<ElementProcessStatus> _elementProcessStatusStack = new Stack<ElementProcessStatus>();
-        private char _indentCharacter = ' ';
-        private int _indentSize = 2;
-        private bool _keepFirstAttributeOnSameLine = true;
-        private IList<string> _noNewLineElementsList = new List<string>();
-        private IStylerOptions _options = new StylerOptions();
-        private AttributeOrderRules _orderRules = null;
+        private Stack<ElementProcessStatus> elementProcessStatusStack;
+        private IList<string> noNewLineElementsList = new List<string>();
+        private IStylerOptions stylerOptions = new StylerOptions();
+        private AttributeOrderRules attributeOrderRules;
 
         public Styler()
         {
-            _elementProcessStatusStack.Push(new ElementProcessStatus());
+            elementProcessStatusStack = new Stack<ElementProcessStatus>();
+            elementProcessStatusStack.Push(new ElementProcessStatus());
+
+            this.IndentCharacter = ' ';
+            this.IndentSize = 2;
         }
 
         public char IndentCharacter
         {
-            get { return _indentCharacter; }
-            set { _indentCharacter = value; }
+            get;
+            set;
         }
 
         public int IndentSize
         {
-            get { return _indentSize; }
-            set { _indentSize = value; }
-        }
-
-        public bool KeepFirstAttributeOnSameLine
-        {
-            get { return _keepFirstAttributeOnSameLine; }
-            set { _keepFirstAttributeOnSameLine = value; }
+            get;
+            set;
         }
 
         public IStylerOptions Options
         {
+            get;
+            set;
+        }
+
+        public bool KeepFirstAttributeOnSameLine
+        {
             get
             {
-                return _options;
-            }
-
-            set
-            {
-                _options = value;
+                return true;
             }
         }
 
@@ -65,19 +56,12 @@ namespace XamlStyler.XamlStylerVSPackage
         {
             get
             {
-                if (null == _orderRules)
+                if (attributeOrderRules == null)
                 {
-                    if (null == this.Options)
-                    {
-                        throw new InvalidOperationException("Styler options is not initialized.");
-                    }
-                    else
-                    {
-                        _orderRules = new AttributeOrderRules(this.Options);
-                    }
+                    attributeOrderRules = new AttributeOrderRules(Options);
                 }
 
-                return _orderRules;
+                return attributeOrderRules;
             }
         }
 
@@ -103,7 +87,7 @@ namespace XamlStyler.XamlStylerVSPackage
                             case XmlNodeType.Element:
                                 this.UpdateParentElementProcessStatus(ContentTypeEnum.Mixed);
 
-                                _elementProcessStatusStack.Push(
+                                elementProcessStatusStack.Push(
                                         new ElementProcessStatus()
                                         {
                                             Name = xmlReader.Name,
@@ -115,9 +99,9 @@ namespace XamlStyler.XamlStylerVSPackage
 
                                 this.ProcessElement(xmlReader, ref output);
 
-                                if (_elementProcessStatusStack.Peek().IsSelfClosingElement)
+                                if (elementProcessStatusStack.Peek().IsSelfClosingElement)
                                 {
-                                    _elementProcessStatusStack.Pop();
+                                    elementProcessStatusStack.Pop();
                                 }
 
                                 break;
@@ -143,7 +127,7 @@ namespace XamlStyler.XamlStylerVSPackage
 
                             case XmlNodeType.EndElement:
                                 this.ProcessEndElement(xmlReader, ref output);
-                                _elementProcessStatusStack.Pop();
+                                elementProcessStatusStack.Pop();
                                 break;
 
                             default:
@@ -194,18 +178,18 @@ namespace XamlStyler.XamlStylerVSPackage
 
         private bool IsNoLineBreakElement(string elementName)
         {
-            if (!String.IsNullOrEmpty(_options.NoNewLineElements))
+            if (!String.IsNullOrEmpty(stylerOptions.NoNewLineElements))
             {
-                if (null == _noNewLineElementsList || 0 == _noNewLineElementsList.Count)
+                if (null == noNewLineElementsList || 0 == noNewLineElementsList.Count)
                 {
-                    _noNewLineElementsList = this.Options.NoNewLineElements.Split(',')
+                    noNewLineElementsList = this.Options.NoNewLineElements.Split(',')
                             .Where<string>(x => !String.IsNullOrWhiteSpace(x))
                             .Select<string, string>(x => x.Trim())
                             .ToList<string>();
                 }
             }
 
-            return _noNewLineElementsList.Contains<string>(elementName);
+            return noNewLineElementsList.Contains<string>(elementName);
         }
 
         private void ProcessComment(XmlReader xmlReader, ref string output)
@@ -293,7 +277,7 @@ namespace XamlStyler.XamlStylerVSPackage
                         output += String.Format(" {0}", pendingAppend);
                     }
 
-                    _elementProcessStatusStack.Peek().IsMultlineStartTag = false;
+                    elementProcessStatusStack.Peek().IsMultlineStartTag = false;
                 }
                 // Need to break attributes
                 else
@@ -365,12 +349,12 @@ namespace XamlStyler.XamlStylerVSPackage
                         }
                     }
 
-                    _elementProcessStatusStack.Peek().IsMultlineStartTag = true;
+                    elementProcessStatusStack.Peek().IsMultlineStartTag = true;
                 }
 
                 // Determine if to put ending bracket on new line
                 if (this.Options.PutEndingBracketOnNewLine
-                    && _elementProcessStatusStack.Peek().IsMultlineStartTag)
+                    && elementProcessStatusStack.Peek().IsMultlineStartTag)
                 {
                     output += Environment.NewLine + currentIndentString;
                     hasPutEndingBracketOnNewLine = true;
@@ -388,7 +372,7 @@ namespace XamlStyler.XamlStylerVSPackage
                     output += " />";
                 }
 
-                _elementProcessStatusStack.Peek().IsSelfClosingElement = true;
+                elementProcessStatusStack.Peek().IsSelfClosingElement = true;
             }
             else
             {
@@ -400,7 +384,7 @@ namespace XamlStyler.XamlStylerVSPackage
         {
             // Shrink the current element, if it has no content.
             // E.g., <Element>  </Element> => <Element />
-            if (ContentTypeEnum.None == _elementProcessStatusStack.Peek().ContentType
+            if (ContentTypeEnum.None == elementProcessStatusStack.Peek().ContentType
                 && Options.RemoveEndingTagOfEmptyElement)
             {
                 output = output.TrimEnd(' ', '\t', '\r', '\n');
@@ -416,8 +400,8 @@ namespace XamlStyler.XamlStylerVSPackage
                     output = output.Insert(bracketIndex, "/");
                 }
             }
-            else if (ContentTypeEnum.SingleLineTextOnly == _elementProcessStatusStack.Peek().ContentType
-                && false == _elementProcessStatusStack.Peek().IsMultlineStartTag)
+            else if (ContentTypeEnum.SingleLineTextOnly == elementProcessStatusStack.Peek().ContentType
+                && false == elementProcessStatusStack.Peek().IsMultlineStartTag)
             {
                 int bracketIndex = output.LastIndexOf('>');
 
@@ -495,7 +479,7 @@ namespace XamlStyler.XamlStylerVSPackage
 
         private void UpdateParentElementProcessStatus(ContentTypeEnum contentType)
         {
-            ElementProcessStatus parentElementProcessStatus = _elementProcessStatusStack.Peek();
+            ElementProcessStatus parentElementProcessStatus = elementProcessStatusStack.Peek();
 
             parentElementProcessStatus.ContentType |= contentType;
         }

@@ -1,4 +1,6 @@
-﻿namespace XamlStyler.XamlStylerVSPackage
+﻿using System;
+
+namespace XamlStyler.Core
 {
     public enum MarkupExtensionParsingModeEnum
     {

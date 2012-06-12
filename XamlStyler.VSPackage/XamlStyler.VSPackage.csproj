@@ -28,10 +28,10 @@
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XamlStyler.XamlStylerVSPackage</RootNamespace>
+    <RootNamespace>VSPackage</RootNamespace>
     <AssemblyName>XamlStylerVSPackage</AssemblyName>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>XamlStylerKey.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -67,18 +67,18 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
-    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
-    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
-    <Reference Include="Microsoft.VisualStudio.Shell.10.0">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -148,24 +148,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\AttributeInfoExtension.cs" />
-    <Compile Include="StylerModels\AttributeOrderRule.cs" />
-    <Compile Include="StylerModels\AttributeOrderRules.cs" />
-    <Compile Include="StylerModels\AttributeTokenInfoEnum.cs" />
-    <Compile Include="StylerModels\AttributeInfo.cs" />
-    <Compile Include="Options\IStylerOptions.cs" />
-    <Compile Include="Styler\ContentTypeEnum.cs" />
-    <Compile Include="Styler\ElementProcessStatus.cs" />
+    <Compile Include="Assets\EnumerableExtensions.cs" />
+    <Compile Include="Assets\VSPackageBase.cs" />
+    <Compile Include="Assets\VsUIShellExtensions.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="StylerModels\MarkupExtensionInfo.cs" />
-    <Compile Include="Helpers\MarkupExtensionInfoExtension.cs" />
-    <Compile Include="Styler\MarkupExtensionParser.cs" />
-    <Compile Include="Styler\MarkupExtensionParsingModeEnum.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\StringExtension.cs" />
-    <Compile Include="Options\StylerOptions.cs" />
-    <Compile Include="Styler\Styler.cs" />
-    <Compile Include="XamlStylerVSPackagePackage.cs" />
+    <Compile Include="XamlStylerVSPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
@@ -179,21 +167,13 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Key.snk" />
+    <None Include="XamlStylerKey.snk" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="XamlStylerVSPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images_32bit.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -216,6 +196,18 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images_32bit.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Package.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XamlStyler.Core\XamlStyler.Core.csproj">
+      <Project>{4cb7dbf0-6a5c-4f34-a0b7-aa380f723a69}</Project>
+      <Name>XamlStyler.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlStyler.VSPackage", "Xam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlStyler.Tests", "XamlStyler.Tests\XamlStyler.Tests.csproj", "{CE2C93EC-AD20-4068-BC3C-A0E8F9C84C3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlStyler.Core", "XamlStyler.Core\XamlStyler.Core.csproj", "{4CB7DBF0-6A5C-4F34-A0B7-AA380F723A69}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = XamlStyler.vsmdi
@@ -23,6 +25,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CB7DBF0-6A5C-4F34-A0B7-AA380F723A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB7DBF0-6A5C-4F34-A0B7-AA380F723A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB7DBF0-6A5C-4F34-A0B7-AA380F723A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB7DBF0-6A5C-4F34-A0B7-AA380F723A69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7083E03A-BD77-426A-9FFF-5D8FBAC7406B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7083E03A-BD77-426A-9FFF-5D8FBAC7406B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7083E03A-BD77-426A-9FFF-5D8FBAC7406B}.Release|Any CPU.ActiveCfg = Release|Any CPU

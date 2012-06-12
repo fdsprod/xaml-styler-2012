@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XamlStyler.XamlStylerVSPackage.Options
+namespace XamlStyler.Core
 {
     public interface IStylerOptions
     {

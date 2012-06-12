@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.Shell;
 
-namespace XamlStyler.XamlStylerVSPackage.Options
+namespace XamlStyler.Core
 {
     [System.ComponentModel.DesignerCategory("")]
     public class StylerOptions : DialogPage, IStylerOptions

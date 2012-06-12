@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XamlStyler.XamlStylerVSPackage.Options;
 
-namespace XamlStyler.XamlStylerVSPackage.StylerModels
+namespace XamlStyler.Core
 {
     public class AttributeOrderRules
     {
-        private readonly IDictionary<string, AttributeOrderRule> _internalDictionary = null;
+        private readonly IDictionary<string, AttributeOrderRule> internalDictionary;
 
         public AttributeOrderRules(IStylerOptions options)
         {
-            _internalDictionary = new Dictionary<string, AttributeOrderRule>();
+            internalDictionary = new Dictionary<string, AttributeOrderRule>();
 
             this.Populate(options.AttributeOrderWpfNamespace, AttributeTokenInfoEnum.WpfNamespace)
                 .Populate(options.AttributeOrderClass, AttributeTokenInfoEnum.Class)
@@ -27,16 +26,16 @@ namespace XamlStyler.XamlStylerVSPackage.StylerModels
 
         public bool ContainsRuleFor(string name)
         {
-            return _internalDictionary.Keys.Contains(name);
+            return internalDictionary.Keys.Contains(name);
         }
 
         public AttributeOrderRule GetRuleFor(string attributeName)
         {
             AttributeOrderRule result = null;
 
-            if (_internalDictionary.Keys.Contains(attributeName))
+            if (internalDictionary.Keys.Contains(attributeName))
             {
-                result = _internalDictionary[attributeName];
+                result = internalDictionary[attributeName];
             }
             else
             {
@@ -74,7 +73,7 @@ namespace XamlStyler.XamlStylerVSPackage.StylerModels
 
                 foreach (string attributeName in attributeNames)
                 {
-                    _internalDictionary[attributeName] = new AttributeOrderRule()
+                    internalDictionary[attributeName] = new AttributeOrderRule()
                         {
                             AttributeTokenType = tokenType,
                             Priority = priority

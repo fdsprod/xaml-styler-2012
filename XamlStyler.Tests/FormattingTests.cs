@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using XamlStyler.XamlStylerVSPackage;
+using XamlStyler.Core;
 
 namespace XamlStyler.Tests
 {

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using XamlStyler.XamlStylerVSPackage;
-using XamlStyler.XamlStylerVSPackage.StylerModels;
 
-namespace XamlStyler.XamlStylerVSPackage.Helpers
+namespace XamlStyler.Core
 {
     public static class AttributeInfoExtension
     {

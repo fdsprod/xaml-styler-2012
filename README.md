@@ -1,8 +1,21 @@
+*This project is a fork of the [XAML Styler for Visual Studio 2010](http://xamlstyler.codeplex.com)*
+
 ### About
 
-"XAML Styler" is a visual studio 2012 extension, which makes XAML markup source code beautify much easier by sorting the attributes based on their importance. This tool can help you/your team maintain a better XAML coding style as well as a much better XAML readability.
+**XAML Styler** is a visual studio 2012 extension, which makes XAML markup source code beautify much easier by 
+sorting the attributes based on their importance, and aligning them under eachother.
 
-This is a fork of the [XAML Styler for Visual Studio 2010](http://xamlstyler.codeplex.com)
+This tool can help you/your team maintain a better XAML coding style as well as a much better XAML readability.
+
+### Beautifying XAML:
+
+- Example of XAML before beaufiying
+
+![Before beautifying](https://github.com/Windcape/xaml-styler-2012/blob/master/xamlstylervs2012_before.png)
+
+- And after beautifying:
+
+![After beautifying](https://github.com/Windcape/xaml-styler-2012/blob/master/xamlstylervs2012_after.png)
 
 ### License
 

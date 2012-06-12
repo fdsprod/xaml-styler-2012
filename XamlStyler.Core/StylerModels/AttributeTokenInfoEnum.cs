@@ -1,4 +1,6 @@
-﻿namespace XamlStyler.XamlStylerVSPackage.StylerModels
+﻿using System;
+
+namespace XamlStyler.Core
 {
     public enum AttributeTokenInfoEnum
     {

@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XamlStyler.VSPackage\XamlStyler.VSPackage.csproj">
-      <Project>{7083e03a-bd77-426a-9fff-5d8fbac7406b}</Project>
-      <Name>XamlStyler.VSPackage</Name>
+    <ProjectReference Include="..\XamlStyler.Core\XamlStyler.Core.csproj">
+      <Project>{4cb7dbf0-6a5c-4f34-a0b7-aa380f723a69}</Project>
+      <Name>XamlStyler.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

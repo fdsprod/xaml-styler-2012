@@ -5,19 +5,20 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace XamlStyler.XamlStylerVSPackage.StylerModels
+namespace XamlStyler.Core
 {
     public class AttributeInfo : IComparable
     {
         private static readonly Regex MarkupExtensionPattern = new Regex("^{(?!}).*}$");
-        private readonly AttributeOrderRule _orderRule = null;
+        
+        private readonly AttributeOrderRule attributeOrderRule = null;
 
         public AttributeInfo(string name, string value, AttributeOrderRule orderRule)
         {
             this.Name = name;
             this.Value = value;
             this.IsMarkupExtension = MarkupExtensionPattern.IsMatch(value);
-            this._orderRule = orderRule;
+            this.attributeOrderRule = orderRule;
         }
 
         public bool IsMarkupExtension
@@ -47,14 +48,14 @@ namespace XamlStyler.XamlStylerVSPackage.StylerModels
                 return 0;
             }
 
-            if (_orderRule.AttributeTokenType != target._orderRule.AttributeTokenType)
+            if (attributeOrderRule.AttributeTokenType != target.attributeOrderRule.AttributeTokenType)
             {
-                return _orderRule.AttributeTokenType.CompareTo(target._orderRule.AttributeTokenType);
+                return attributeOrderRule.AttributeTokenType.CompareTo(target.attributeOrderRule.AttributeTokenType);
             }
 
-            if (_orderRule.Priority != target._orderRule.Priority)
+            if (attributeOrderRule.Priority != target.attributeOrderRule.Priority)
             {
-                return _orderRule.Priority.CompareTo(target._orderRule.Priority);
+                return attributeOrderRule.Priority.CompareTo(target.attributeOrderRule.Priority);
             }
 
             return this.Name.CompareTo(target.Name);

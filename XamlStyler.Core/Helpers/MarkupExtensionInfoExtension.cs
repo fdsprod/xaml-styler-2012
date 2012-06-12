@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XamlStyler.XamlStylerVSPackage.StylerModels;
 
-namespace XamlStyler.XamlStylerVSPackage.Helpers
+namespace XamlStyler.Core
 {
     public static class MarkupExtensionInfoExtension
     {

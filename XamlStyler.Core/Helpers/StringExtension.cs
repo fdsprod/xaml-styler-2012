@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace XamlStyler.XamlStylerVSPackage.Helpers
+namespace XamlStyler.Core
 {
     public static class StringExtension
     {
