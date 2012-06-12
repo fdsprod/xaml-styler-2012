@@ -11,13 +11,13 @@ This tool can help you/your team maintain a better XAML coding style as well as 
 
 - Example of XAML before beaufiying
 
-![Before beautifying](https://github.com/Windcape/xaml-styler-2012/blob/master/xamlstylervs2012_before.png)
+![Before beautifying](https://github.com/Windcape/xaml-styler-2012/raw/master/xamlstylervs2012_before.png)
 
 - And after beautifying:
 
-![After beautifying](https://github.com/Windcape/xaml-styler-2012/blob/master/xamlstylervs2012_after.png)
+![After beautifying](https://github.com/Windcape/xaml-styler-2012/raw/master/xamlstylervs2012_after.png)
 
 ### License
 
 All included software is licensed under the Microsoft Public License (Ms-PL)
-available in full in the [licence file](https://github.com/Windcape/xaml-styler-2012/blob/master/LICENSE.txt).
+available in full in the [licence file](https://github.com/Windcape/xaml-styler-2012/raw/master/LICENSE.txt).
